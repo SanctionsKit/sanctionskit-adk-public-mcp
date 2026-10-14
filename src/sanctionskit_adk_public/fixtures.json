@@ -1,0 +1,699 @@
+{
+  "notice": "Synthetic offline response fixtures. Tool discovery schemas captured from the public endpoint on 2026-10-14; responses are illustrative and do not assert current source coverage.",
+  "tools": [
+    {
+      "name": "search_docs",
+      "title": "Search SanctionsKit documentation",
+      "description": "Find current integration documentation and guides by keyword. Returns document slugs for get_doc. Public; no account needed.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "limit": {
+            "default": 5,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {}
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      },
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ],
+      "_meta": {
+        "securitySchemes": [
+          {
+            "type": "noauth"
+          }
+        ]
+      }
+    },
+    {
+      "name": "get_doc",
+      "title": "Read an integration document",
+      "description": "Read a document returned by search_docs, including code examples and error handling. Uses a fixed local document catalog; does not fetch arbitrary URLs.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 150,
+            "pattern": "^[a-z0-9/-]+$"
+          }
+        },
+        "required": [
+          "slug"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {}
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      },
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ],
+      "_meta": {
+        "securitySchemes": [
+          {
+            "type": "noauth"
+          }
+        ]
+      }
+    },
+    {
+      "name": "get_api_schema",
+      "title": "Inspect the REST API contract",
+      "description": "Without path, list consumer REST operations. With a path such as /screenings and lowercase method, retrieve its OpenAPI request, response, examples and referenced schemas. Describes REST capabilities; MCP account tools are sandbox only.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 150
+          },
+          "method": {
+            "default": "get",
+            "type": "string",
+            "enum": [
+              "get",
+              "post",
+              "put",
+              "patch",
+              "delete"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {}
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      },
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ],
+      "_meta": {
+        "securitySchemes": [
+          {
+            "type": "noauth"
+          }
+        ]
+      }
+    },
+    {
+      "name": "validate_screening_request",
+      "title": "Validate a screening request",
+      "description": "Validate request structure against the runtime REST screening schema without submitting or retaining it. Does not check live source eligibility or grant clearance. Use synthetic development inputs.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "request": {}
+        },
+        "required": [
+          "request"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {}
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      },
+      "securitySchemes": [
+        {
+          "type": "noauth"
+        }
+      ],
+      "_meta": {
+        "securitySchemes": [
+          {
+            "type": "noauth"
+          }
+        ]
+      }
+    },
+    {
+      "name": "list_sources",
+      "title": "Discover source coverage",
+      "description": "Read current source metadata and qualification from the connected sandbox workspace, with bounded pagination. Catalog/production source availability does not enable live MCP screenings; sandbox screening uses sandbox@1.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "offset": {
+            "default": 0,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "limit": {
+            "default": 20,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 50
+          }
+        },
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {}
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      },
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "sources:read"
+          ]
+        }
+      ],
+      "_meta": {
+        "securitySchemes": [
+          {
+            "type": "oauth2",
+            "scopes": [
+              "sources:read"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "run_sandbox_screening",
+      "title": "Test a sandbox screening",
+      "description": "Submit invented data to sandbox@1. Requires synthetic=true and an idempotencyKey of 8\u2013128 URL-safe characters, reused unchanged with the same request for retries. Retains screening evidence according to policy and may create a review case; consumes sandbox allowance, never paid production allowance. Cannot screen production or link counterparties.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "request": {
+            "type": "object",
+            "properties": {
+              "subject": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 300
+                  },
+                  "entityType": {
+                    "default": "person",
+                    "type": "string",
+                    "enum": [
+                      "person",
+                      "organization",
+                      "vessel",
+                      "aircraft",
+                      "other"
+                    ]
+                  },
+                  "identifiers": {
+                    "default": [],
+                    "maxItems": 20,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "value": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 160
+                        },
+                        "issuer": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "birthDate": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^(?!0000)\\d{4}$"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^(?!0000)\\d{4}-(0[1-9]|1[0-2])$"
+                      },
+                      {
+                        "type": "string",
+                        "allOf": [
+                          {
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                          },
+                          {
+                            "pattern": "^(?!0000)"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 100
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "additionalProperties": false
+              },
+              "counterpartyId": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "policy": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "version": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "id",
+                  "version"
+                ],
+                "additionalProperties": false
+              },
+              "reference": {
+                "type": "string",
+                "maxLength": 160
+              },
+              "sources": {
+                "minItems": 1,
+                "maxItems": 512,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80
+                }
+              },
+              "package": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "retention": {
+                "default": "standard",
+                "type": "string",
+                "enum": [
+                  "standard",
+                  "minimal"
+                ]
+              }
+            },
+            "required": [
+              "subject"
+            ],
+            "additionalProperties": false
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[\\w:.-]{8,128}$"
+          },
+          "synthetic": {
+            "type": "boolean",
+            "const": true
+          }
+        },
+        "required": [
+          "request",
+          "idempotencyKey",
+          "synthetic"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {}
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      },
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "screenings:write"
+          ]
+        }
+      ],
+      "_meta": {
+        "securitySchemes": [
+          {
+            "type": "oauth2",
+            "scopes": [
+              "screenings:write"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "get_screening_result",
+      "title": "Read a sandbox screening result",
+      "description": "Retrieve retained evidence by screening ID from the connected sandbox workspace. An expired result is an error. Preserve coverage, versions, warnings and potential-match review requirements.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {}
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      },
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "results:read"
+          ]
+        }
+      ],
+      "_meta": {
+        "securitySchemes": [
+          {
+            "type": "oauth2",
+            "scopes": [
+              "results:read"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "get_usage",
+      "title": "Check sandbox allowance",
+      "description": "Read the connected sandbox workspace allowance, completed subjects and pending reservations.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {}
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      },
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": [
+            "usage:read"
+          ]
+        }
+      ],
+      "_meta": {
+        "securitySchemes": [
+          {
+            "type": "oauth2",
+            "scopes": [
+              "usage:read"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "get_profile",
+      "title": "Identify the connected profile",
+      "description": "Identify the sandbox profile represented by the authenticated connection. Takes no user or workspace selector.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nickname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false,
+        "idempotentHint": true
+      },
+      "securitySchemes": [
+        {
+          "type": "oauth2",
+          "scopes": []
+        }
+      ],
+      "_meta": {
+        "securitySchemes": [
+          {
+            "type": "oauth2",
+            "scopes": []
+          }
+        ],
+        "openai/profile": true
+      }
+    }
+  ],
+  "responses": {
+    "search_docs": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"data\": [{\"slug\": \"docs/screenings\", \"title\": \"Offline screening request documentation\", \"description\": \"Synthetic fixture; not a live result.\", \"url\": \"https://www.sanctionskit.com/docs/screenings\"}]}"
+        }
+      ],
+      "structuredContent": {
+        "data": [
+          {
+            "slug": "docs/screenings",
+            "title": "Offline screening request documentation",
+            "description": "Synthetic fixture; not a live result.",
+            "url": "https://www.sanctionskit.com/docs/screenings"
+          }
+        ]
+      },
+      "isError": false
+    },
+    "get_doc": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"data\": {\"slug\": \"docs/screenings\", \"title\": \"Offline documentation fixture\", \"content\": \"Synthetic example: a screening request contains subject and package fields. No screening is performed by this fixture.\"}}"
+        }
+      ],
+      "structuredContent": {
+        "data": {
+          "slug": "docs/screenings",
+          "title": "Offline documentation fixture",
+          "content": "Synthetic example: a screening request contains subject and package fields. No screening is performed by this fixture."
+        }
+      },
+      "isError": false
+    },
+    "get_api_schema": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"data\": {\"baseUrl\": \"https://www.sanctionskit.com/api/v1\", \"path\": \"/screenings\", \"method\": \"POST\", \"operation\": {\"summary\": \"Offline synthetic schema fixture\"}}}"
+        }
+      ],
+      "structuredContent": {
+        "data": {
+          "baseUrl": "https://www.sanctionskit.com/api/v1",
+          "path": "/screenings",
+          "method": "POST",
+          "operation": {
+            "summary": "Offline synthetic schema fixture"
+          }
+        }
+      },
+      "isError": false
+    },
+    "validate_screening_request": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"data\": {\"valid\": true, \"scope\": \"structure_only\", \"coverageChecked\": false}}"
+        }
+      ],
+      "structuredContent": {
+        "data": {
+          "valid": true,
+          "scope": "structure_only",
+          "coverageChecked": false
+        }
+      },
+      "isError": false
+    }
+  }
+}

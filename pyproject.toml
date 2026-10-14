@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sanctionskit-adk-public-mcp-example"
+version = "0.1.0.dev0"
+description = "Model-free Google ADK example for public MCP documentation and request validation"
+requires-python = ">=3.11"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "SanctionsKit", email = "support@sanctionskit.com"}]
+dependencies = [
+  "google-adk[mcp]==2.12.0",
+  "mcp==2.3.0",
+  "httpx2==2.13.1",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10", "pytest-asyncio>=1,<2"]
+
+[project.scripts]
+sanctionskit-adk-public = "sanctionskit_adk_public.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sanctionskit_adk_public"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/tests", "/README.md", "/.env.example", "/pyproject.toml", "/uv.lock", "/LICENSE"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+src = ["src"]
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
